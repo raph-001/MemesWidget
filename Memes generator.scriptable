@@ -1,0 +1,12 @@
+{
+  "always_run_in_app" : false,
+  "icon" : {
+    "color" : "deep-gray",
+    "glyph" : "magic"
+  },
+  "name" : "Memes generator",
+  "script" : "\nlet url = \"https:\/\/www.reddit.com\/r\/memes.json\"\n\nlet fm = FileManager.iCloud()\nlet fileText = await fm.readString(fm.documentsDirectory()+ \"\/memes.txt\")\nvar lines = fileText.split(\/\\r\\n|\\r|\\n\/)\nlet numLines = lines.count\nconsole.log(numLines)\nlet imageUrl;\nlet memeTitle;\n\n\n\nmemeTitle = lines[0]\nimageUrl = lines[1]\nconsole.log(memeTitle)\nlines.shift()\nlines.shift()\nconsole.log(lines.length)\n  \nif (lines.length === 0) {\n  console.log(\"hi\")\n  let req = new Request(url)\n  let json = await req.loadJSON()\n  \n  var children = json.data.children\n  children.forEach(function(child) {\n    \n\/\/     if (child.data.is_video === true) {\n      \n  lines.push(child.data.title)\n  lines.push(child.data.url)\n\/\/     }\n    \n  }) \n    \n    \n  \n  \n}\nconsole.log(lines)\nlet str = lines.join(\"\\n\")\/\/ \nfm.writeString(fm.documentsDirectory()+\"\/memes.txt\", str)\n\n\nlet imagereq = new Request(imageUrl)\nlet image = await imagereq.loadImage()\n\n\ntime = new Date(1 )\n\n\nwidget = new ListWidget()\nScript.setWidget(widget)\n\n\nlet gradient = new LinearGradient()\ngradient.locations = [0, 1]\ngradient.colors = \n[\nnew Color(\"#141414\"),\nnew Color(\"#13233f\")\n]\nwidget.backgroundGradient = gradient\n\n\nfont = new Font(\"arial\", 20)\nTitle = widget.addText(memeTitle)\nTitle.font = Font.boldSystemFont(15)\nTitle.centerAlignText()\n\nwidget.addSpacer(10)\n\nimageRenderer = widget.addImage(image)\nimageRenderer.centerAlignImage()\nimageRenderer.cornerRadius = 10\n\/\/ \/\/ \nwidget.presentLarge()\n\n\/\nApp.close()\n\n",
+  "share_sheet_inputs" : [
+
+  ]
+}
